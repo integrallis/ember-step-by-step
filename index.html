@@ -5,8 +5,29 @@
   <title>Ember Step by Step</title>
 </head>
 <body> 
-	<script type="text/x-handlebars">
+	<script type="text/x-handlebars" data-template-name="index">
 	  <h1>Dashboard</h1>
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="BlogPosts">
+	  <h1>Posts</h1>
+	
+		<table>
+			<thead>
+		    <tr>
+			    <th>Title</th>
+			    <th>Body</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+				{{#each controller}} 
+				  <tr>
+					  <td>{{title}}</td>
+					  <td>{{body}}</td>
+					</tr>
+				{{/each}}
+		  </tbody>
+		</table>	
 	</script>
 	
 	<!-- JAVASCRIPTS -->
