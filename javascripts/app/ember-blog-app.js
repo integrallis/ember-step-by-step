@@ -18,6 +18,12 @@ EmberBlog.BlogPost = DS.Model.extend({
 EmberBlog.Router.map(function() {
   this.resource('BlogPosts', { path: '/posts' }, function() {
     this.route('new');
+    // this.route('show', {
+    //   path: ':blog_post_id' 
+    // });
+  });
+  this.resource('BlogPost', { 
+    path: '/posts/:post_id' 
   });
 });
 
@@ -48,6 +54,32 @@ EmberBlog.BlogPostsNewRoute = Ember.Route.extend({
       this.get('currentModel').deleteRecord();
       this.transitionTo('BlogPosts');
     }
+  }
+});
+
+EmberBlog.BlogPostRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('BlogPost', params.post_id);
+  }
+});
+
+// EmberBlog.BlogPostsEditRoute = Ember.Route.extend({
+//   model: function(params) {
+//     this.store.find('BlogPost', params.user_id);
+//   },
+//   setupController: function(controller, model) {
+//     controller.set('content', model);
+//   }
+// });
+
+// Index controller
+EmberBlog.IndexController = Ember.Controller.extend({
+  postsCount: 0,
+  init: function() {
+    cntrl = this;
+    this.store.find('BlogPost').then(function(posts) {
+      cntrl.set('postsCount', posts.get('length'));
+    });
   }
 });
 
