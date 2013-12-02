@@ -28,10 +28,33 @@ EmberBlog.BlogPostsRoute = Ember.Route.extend({
   }
 });
 
+// BlogPosts New Route, creates a new BlogPost
+EmberBlog.BlogPostsNewRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.createRecord('BlogPost');
+  },
+  actions: {
+    save: function() {
+      var route = this;
+      this.get('currentModel').save().then(function(post) {
+        console.log('Succesfully saved post: ' + post.get('title'));
+        route.transitionTo('BlogPosts.index');
+      }, function(post) {  
+        console.log('Error saving post: ' + post.get('title'));
+        route.transitionTo('BlogPosts');
+      });
+    },
+    cancel: function() {
+      this.get('currentModel').deleteRecord();
+      this.transitionTo('BlogPosts');
+    }
+  }
+});
+
 // Add some fixtures
 EmberBlog.BlogPost.FIXTURES = [
   { id: '1', title: 'RWX Rocks!', body: "We're learning Ember" },
   { id: '2', title: 'HTML5 is here', body: '... to stay' },
   { id: '3', title: 'Groovy or Ruby?', body: 'Which one to choose?' },
-  { id: '4', title: 'Is Maven making you hangry?', body: 'Try Gradle!'}
+  { id: '4', title: 'Is Maven making you angry?', body: 'Try Gradle!' }
 ];
