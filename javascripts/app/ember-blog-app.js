@@ -86,14 +86,15 @@ EmberBlog.CommentsNewController = Ember.ObjectController.extend({
  
   actions: {
     save: function() {
-      console.log("IN CommentsNewController#save");
       var post = this.get('controllers.BlogPost.content');
-      console.log("post ==>" + post.get('title'));
       var comment = this.store.createRecord('BlogPostComment', { post: post, body: this.get('body') });
       comment.save().then(function(comment) {
         post.get('comments').pushObject(comment);
       });
       this.get('target').transitionTo('BlogPost.index');
+    },
+    cancel: function() {
+      this.get('target').transitionTo('BlogPost.index');  
     }
   }
 });
